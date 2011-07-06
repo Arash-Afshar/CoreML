@@ -41,11 +41,7 @@ exper:
 	| exper LT exper			{ App(App(lt, $1), $3) }
 	| exper EQ exper			{ App(App(eq, $1), $3) }
 	| exper NE exper			{ App(App(ne, $1), $3) }
-	| LET idenList EQ exper IN exper	{ Let($2, $4, $6) }
+	| LET IDEN EQ exper IN exper		{ Let($2, $4, $6) }
 	| IF exper THEN exper ELSE exper	{ App(App(App(branch, $2), $4), $6) }
 ;
 
-idenList:
-	  IDEN					{ (Var $1)::[] }
-	| IDEN idenList				{ (Var $1)@$2 }
-;
