@@ -42,7 +42,7 @@ let delta c  l =
 
 
 let get x  env =
-	try Value (List.assoc x  env) with Not_found  -> Error;;
+	try Value (List.assoc x env) with Not_found  -> Error;;
 
 
 let rec create_lam_expr varList expr =
@@ -57,17 +57,18 @@ let rec eval  env = function
 	| Const c -> Value  (Constant (c, []))  
 	| Fun (x, a) -> Value (Closure (x, a, env))  
 	| Let (x, a1, a2) ->
-		let newEnv = (((List.hd x) , Constant ({name = Name (List.hd x);  arity = (List.length x)-1; constr = false}, []))::env) in
 		let body = create_lam_expr (List.tl x) a1 in
-		begin match eval env a1 with  
-		| Value v1 -> eval newEnv body
-		| Error -> Error  
-		end  
+		begin match eval env body with
+		| Value v1 ->
+			let newEnv = (List.hd x , v1)::env in
+			eval newEnv a2
+		| Error -> Error
+		end
 	| App (a1, a2) ->  
-		begin match eval  env a1 with  
+		begin match eval env a1 with  
 		| Value v1 ->  
 			begin match v1, eval env a2  with  
-			| Constant  (c, l), Value  v2 ->  
+			| Constant  (c, l), Value  v2 ->
 				let  k = List.length  l + 1 in  
 				if  c.arity  < k then Error  
 				else  if c.arity  > k then Value (Constant (c, v2::l))  
@@ -75,9 +76,9 @@ let rec eval  env = function
 				else  delta c (v2::l)  
 			| Closure (x, e, env0), Value v2  ->  
 				eval ((x, v2) :: env0) e  
-			| _, Error -> Error  
-			end  
-		|Error -> Error  
-		end  
+			| _, Error -> Error
+			end
+		|Error -> Error
+		end
 	| _ -> Error ;;
 

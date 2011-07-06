@@ -92,10 +92,10 @@ let _ =
 		let lexbuf = Lexing.from_channel (open_in Sys.argv.(1) ) in
 		while true do
 			let result = Parser.main Lexer.token lexbuf in
-			 (* string_of_answer (eval [] result); *)
+			(* string_of_answer (eval [] result); *)
 			(* print_string(string_of_texp(type_of result)); print_newline(); *)
-			print_string(string_of_concrete_expr(result));  print_newline();
-			print_string(string_of_abstract_expr(result));  print_newline();
+			(* print_string(string_of_concrete_expr(result));  print_newline(); *)
+			(* print_string(string_of_abstract_expr(result));  print_newline(); *)
 			print_string(string_of_answer(eval [] result)); print_newline();
 			flush stdout
 		done
