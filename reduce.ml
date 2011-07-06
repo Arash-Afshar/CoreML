@@ -45,11 +45,11 @@ let get x  env =
 	try Value (List.assoc x  env) with Not_found  -> Error;;
 
 let rec eval  env = function
-	| Var x -> get  x env  
-	| Const c -> Value  (Constant (c, []))  
-	| Fun (x, a) -> Value (Closure (x, a, env))  
-	| Let (x, a1, a2) ->  
-		begin match eval  env a1 with  
+	| Var x -> get  x env
+	| Const c -> Value  (Constant (c, []))
+	| Fun (x, a) -> Value (Closure (x, a, env))
+	| Let (x, a1, a2) ->	
+		begin match eval  env a1 with
 		| Value v1 -> eval  ((x, v1)::env) a2  
 		| Error -> Error  
 		end  
