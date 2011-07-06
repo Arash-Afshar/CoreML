@@ -1,12 +1,13 @@
 type name = Name  of string | Int  of int | Bool of bool;;
 type constant = { name  : name; constr : bool; arity : int}
 type var = string
+type varList = var list;;
 type expr =
 	| Var of var
 	| Const of constant
 	| Fun of var  * expr
 	| App of expr * expr
-	| Let of var  * expr * expr;;
+	| Let of varList  * expr * expr;;
 
 
 let plus   = Const {name = Name "+";  arity = 2; constr = false}
