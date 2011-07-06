@@ -49,6 +49,8 @@ let rec eval  env = function
 	| Const c -> Value  (Constant (c, []))  
 	| Fun (x, a) -> Value (Closure (x, a, env))  
 	| Let (x, a1, a2) ->  
+		((List.hd x, Const {name = Name (List.hd x);  arity = (List.length x)-1; constr = false})::env)
+		
 		begin match eval  env a1 with  
 		| Value v1 -> eval  ((x, v1)::env) a2  
 		| Error -> Error  
