@@ -46,6 +46,6 @@ exper:
 ;
 
 idenList:
-	  IDEN					{ (Var $1)::[] }
-	| IDEN idenList				{ (Var $1)@$2 }
+	  IDEN 					{ $1::[] }
+	| IDEN idenList				{ $1::$2 }
 ;

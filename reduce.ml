@@ -44,15 +44,23 @@ let delta c  l =
 let get x  env =
 	try Value (List.assoc x  env) with Not_found  -> Error;;
 
+
+let rec create_lam_expr varList expr =
+	if (List.length varList) == 1 then
+		Fun (List.hd varList, expr)
+	else
+		Fun (List.hd varList, create_lam_expr (List.tl varList) expr);;
+
+
 let rec eval  env = function
 	| Var x -> get  x env  
 	| Const c -> Value  (Constant (c, []))  
 	| Fun (x, a) -> Value (Closure (x, a, env))  
-	| Let (x, a1, a2) ->  
-		((List.hd x, Const {name = Name (List.hd x);  arity = (List.length x)-1; constr = false})::env)
-		
-		begin match eval  env a1 with  
-		| Value v1 -> eval  ((x, v1)::env) a2  
+	| Let (x, a1, a2) ->
+		let newEnv = (((List.hd x) , Constant ({name = Name (List.hd x);  arity = (List.length x)-1; constr = false}, []))::env) in
+		let body = create_lam_expr (List.tl x) a1 in
+		begin match eval env a1 with  
+		| Value v1 -> eval newEnv body
 		| Error -> Error  
 		end  
 	| App (a1, a2) ->  

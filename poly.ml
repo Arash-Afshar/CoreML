@@ -100,7 +100,7 @@ let rec infer  tenv a t  =
 		let  tv = tvar() in  
 		infer tenv a1  tv;  
 		let  s = generalizable tenv  tv, tv in  
-		infer (extend tenv  (x, s)) a2  t;; 
+		infer (extend tenv  (List.hd x, s)) a2  t;; 
 
 let type_of a  = let tv = tvar() in infer [] a  tv; tv;;
 

@@ -21,6 +21,11 @@ let string_of_answer = function
 	| Error -> 
 		"Not a value!";;
 
+let rec string_of_varList vl=
+	if (List.length vl)==1 then
+		(List.hd vl)
+	else
+		(List.hd vl)^" "^string_of_varList (List.tl vl);;
 
 
 let string_of__abstract_name = function
@@ -28,6 +33,7 @@ let string_of__abstract_name = function
 	| Int i -> "Int "^(string_of_int i)
 	| Bool b -> "Bool "^(string_of_bool b)
 	| _ -> "Not a name!"
+
 
 let rec string_of_abstract_expr = function
 	  Var v -> "Var \""^v^"\""
@@ -38,9 +44,8 @@ let rec string_of_abstract_expr = function
 	| App (e1, e2) ->
 		"App( "^(string_of_abstract_expr e1)^" , "^(string_of_abstract_expr e2)^")"
 	| Let (v, e1, e2) ->
-		"Let ( \""^v^"\" , "^string_of_abstract_expr(e1)^" , "^string_of_abstract_expr(e2)^")"
+		"Let ( \""^(string_of_varList v)^"\" , "^string_of_abstract_expr(e1)^" , "^string_of_abstract_expr(e2)^")"
 	| _ -> "Not an expression!"
-
 
 
 let rec string_of_concrete_expr = function
@@ -52,7 +57,7 @@ let rec string_of_concrete_expr = function
 	| App (e1, e2) ->
 		string_of_concrete_expr(e1)^" "^string_of_concrete_expr(e2)
 	| Let (v, e1, e2) ->
-		"let "^v^"="^string_of_concrete_expr(e1)^" in "^string_of_concrete_expr(e2)
+		"let "^(string_of_varList v)^"="^string_of_concrete_expr(e1)^" in "^string_of_concrete_expr(e2)
 	| _ -> "Not an expression!"
 
 
@@ -88,9 +93,9 @@ let _ =
 		while true do
 			let result = Parser.main Lexer.token lexbuf in
 			 (* string_of_answer (eval [] result); *)
-			print_string(string_of_texp(type_of result)); print_newline();
+			(* print_string(string_of_texp(type_of result)); print_newline(); *)
 			print_string(string_of_concrete_expr(result));  print_newline();
-			(* print_string(string_of_abstract_expr(result));  print_newline(); *)
+			print_string(string_of_abstract_expr(result));  print_newline();
 			print_string(string_of_answer(eval [] result)); print_newline();
 			flush stdout
 		done
