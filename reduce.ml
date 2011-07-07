@@ -29,14 +29,11 @@ let delta c  l =
 		val_bool (first == second)
 	| Name "!=", [ Constant ({name=Int second}, []); Constant ({name=Int  first}, [])] ->
 		val_bool (first != second)
-	| Name "branch", [ Constant ({name=Int third}, []); Constant ({name=Int second}, []); Constant ({name=Bool first}, [])] ->
-		let res =
-			if first then second else third in
-			val_int (res)
-	| Name "branch", [ Constant ({name=Bool third}, []); Constant ({name=Bool second}, []); Constant ({name=Bool first}, [])] ->
-		let res =
-			if first then second else third in
-			val_bool (res)
+	| Name "branch", [ third; second; Constant ({name=Bool first}, [])] ->
+		if first then
+			Value second
+		else
+			Value third
 	| _ ->
 		Error;;
 

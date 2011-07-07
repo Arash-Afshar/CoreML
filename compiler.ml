@@ -28,7 +28,7 @@ let rec string_of_varList vl=
 		(List.hd vl)^" "^string_of_varList (List.tl vl);;
 
 
-let string_of__abstract_name = function
+let string_of_abstract_name = function
 	  Name s -> "Name "^s
 	| Int i -> "Int "^(string_of_int i)
 	| Bool b -> "Bool "^(string_of_bool b)
@@ -38,7 +38,7 @@ let string_of__abstract_name = function
 let rec string_of_abstract_expr = function
 	  Var v -> "Var \""^v^"\""
 	| Const c ->
-		"Const { name = "^(string_of__abstract_name c.name)^"; constr = "^(string_of_bool c.constr)^"; arity = "^(string_of_int c.arity)^"}"
+		"Const { name = "^(string_of_abstract_name c.name)^"; constr = "^(string_of_bool c.constr)^"; arity = "^(string_of_int c.arity)^"}"
 	| Fun (v, e) ->
 		"Fun (\""^v^"\" , "^string_of_abstract_expr(e)^")"
 	| App (e1, e2) ->
