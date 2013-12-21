@@ -1,6 +1,9 @@
-This code is intended to be a basis for an implementation of a paper that I am working on. The paper aims to propose theories needed to have an automated policy insertion and verification method for ML.
-This project is a compiler for a simple variant of ML language.
-The paper, the code, the documentation, credits (the initial code is from ocaml: http://caml.inria.fr/pub/docs/u3-ocaml/ocaml-ml.html ) and necessary open source license will be completed in time!
+This code is a compiler for a simple variant of ML language and is intended to be the base for the implementation of 
+the paper titled "Reconstructing security types for automated policy enforcement in FABLE".
+
+The initial code borrowed from ocaml: http://caml.inria.fr/pub/docs/u3-ocaml/ocaml-ml.html
+
+This code is released under GPL terms plus any restriction imposed by http://caml.inria.fr/pub/docs/u3-ocaml/ocaml-ml.html
 
 Hope you enjoy this and find it useful!
 Arash Afshar
